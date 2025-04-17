@@ -24,3 +24,26 @@ Creality K1C printers come with pre-configured access to various online domains 
 1. SSH into your K1C printer using the terminal (or command line).
    ```bash
    ssh root@<printer-ip>
+   
+### Step 2: Download the Script
+Clone this repository to your K1C printer:
+   cd /etc/init.d
+   wget https://github.com/your-repo/block-creality-domains.git
+
+### Step 3: Set Up the Script
+Copy the script to /etc/init.d/:
+   cp /path/to/S99block-creality /etc/init.d/S99block-creality
+
+Make the script executable:
+   chmod +x /etc/init.d/S99block-creality
+
+### Step 4: Test the Script
+Run the script manually to test:
+   /etc/init.d/S99block-creality
+
+### Step 5: Reboot Your Printer
+The script will run automatically on every reboot to block the specified domains.
+   reboot
+
+## Customization
+You can modify the list of domains to block by editing the S99block-creality script. Simply add or remove entries from the script as needed.
