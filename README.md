@@ -27,18 +27,22 @@ Creality K1C printers come with pre-configured access to various online domains 
    
 ### Step 2: Download the Script
 Clone this repository to your K1C printer:
+   ```bash
    cd /etc/init.d
    wget https://github.com/your-repo/block-creality-domains.git
 
 ### Step 3: Set Up the Script
 Copy the script to /etc/init.d/:
+   ```bash
    cp /path/to/S99block-creality /etc/init.d/S99block-creality
 
 Make the script executable:
+   ```bash
    chmod +x /etc/init.d/S99block-creality
 
 ### Step 4: Test the Script
 Run the script manually to test:
+   ```bash
    /etc/init.d/S99block-creality
 
 ### Step 5: Reboot Your Printer
