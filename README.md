@@ -25,29 +25,48 @@ Creality K1C printers come with pre-configured access to various online domains 
    ```bash
    ssh root@<printer-ip>
    
-### Step 2: Download the Script
-Clone this repository to your K1C printer:
-   ```bash
-   cd /etc/init.d
-   wget https://github.com/your-repo/block-creality-domains.git
 
-### Step 3: Set Up the Script
-Copy the script to /etc/init.d/:
-   ```bash
-   cp /path/to/S99block-creality /etc/init.d/S99block-creality
+---
 
-Make the script executable:
-   ```bash
-   chmod +x /etc/init.d/S99block-creality
+#### **Step 2.2: Create the Script File (`S99block-creality`)**
 
-### Step 4: Test the Script
-Run the script manually to test:
-   ```bash
-   /etc/init.d/S99block-creality
+1. **Create a new file** in GitHub called `S99block-creality`.
 
-### Step 5: Reboot Your Printer
-The script will run automatically on every reboot to block the specified domains.
-   reboot
+2. **Paste the following script** into `S99block-creality`:
 
-## Customization
-You can modify the list of domains to block by editing the S99block-creality script. Simply add or remove entries from the script as needed.
+```sh
+#!/bin/sh
+
+# Define the block entries and the file
+HOSTS_FILE="/etc/hosts"
+
+# List of domains to block
+BLOCK_ENTRY_1="0.0.0.0 api.crealitycloud.com"
+BLOCK_ENTRY_2="0.0.0.0 c-smart.cxswyjy.com"
+BLOCK_ENTRY_3="0.0.0.0 ident.me"
+BLOCK_ENTRY_4="0.0.0.0 ipecho.net"
+BLOCK_ENTRY_5="0.0.0.0 ifconfig.me"
+BLOCK_ENTRY_6="0.0.0.0 icanhazip.com"
+BLOCK_ENTRY_7="0.0.0.0 ipinfo.io"
+BLOCK_ENTRY_8="0.0.0.0 api.ipify.org"
+
+# Function to check and add the entry
+block_entry() {
+    local entry="$1"
+    if ! grep -qF "$entry" "$HOSTS_FILE"; then
+        echo "$entry" >> "$HOSTS_FILE"
+        echo "[INFO] Added block entry: $entry"
+    else
+        echo "[INFO] Block entry already exists: $entry"
+    fi
+}
+
+# Check and add all block entries
+block_entry "$BLOCK_ENTRY_1"
+block_entry "$BLOCK_ENTRY_2"
+block_entry "$BLOCK_ENTRY_3"
+block_entry "$BLOCK_ENTRY_4"
+block_entry "$BLOCK_ENTRY_5"
+block_entry "$BLOCK_ENTRY_6"
+block_entry "$BLOCK_ENTRY_7"
+block_entry "$BLOCK_ENTRY_8"
