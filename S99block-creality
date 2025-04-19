@@ -1,0 +1,48 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          block-creality
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Block unwanted domains on boot
+# Description:       Adds specified domains to /etc/hosts to block outbound connections
+### END INIT INFO
+
+# ===== CONFIGURATION =====
+HOSTS_FILE="/etc/hosts"
+
+# Domains to block
+BLOCK_DOMAINS="
+api.crealitycloud.com
+c-smart.cxswyjy.com
+ident.me
+ipecho.net
+ifconfig.me
+icanhazip.com
+ipinfo.io
+api.ipify.org
+ip.42.pl
+"
+
+# ===== FUNCTIONS =====
+block_domain() {
+    local domain="$1"
+    local entry="0.0.0.0 $domain"
+    if ! grep -qF "$entry" "$HOSTS_FILE"; then
+        echo "$entry" >> "$HOSTS_FILE"
+        echo -e "\033[34m[INFO]\033[0m Added block entry: $entry"
+    else
+        echo -e "\033[33m[WARN]\033[0m Entry already exists: $entry"
+    fi
+}
+
+main() {
+    echo -e "\033[36m[STATUS]\033[0m Starting domain block script..."
+    for domain in $BLOCK_DOMAINS; do
+        block_domain "$domain"
+    done
+    echo -e "\033[32m[SUCCESS]\033[0m Blocking complete. Domains are enforced at system level."
+}
+
+main
