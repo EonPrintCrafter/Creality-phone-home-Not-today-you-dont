@@ -40,9 +40,6 @@ Creality printers often make silent outbound requests to remote servers, which c
 
 This script ensures your printer remains **air-gapped from known telemetry sources**, giving you full control of outbound traffic and **ensuring your printer works for you — not for someone else**.
 
----
-
-Let me know if you’d like a **threat table** added (listing each domain + suspected function + risk rating), or if you want to convert this into a printable handout or documentation asset.
 
 ---
 
