@@ -1,4 +1,4 @@
-Here’s an **enterprise-grade**, **production-ready**, and **professionally formatted** version of your GitHub `README.md` and script setup for **blocking Creality domains** on the **K1C printer**. It includes full configuration, improved clarity, modularity, enhanced security practices, and a cleaner user experience — eliminating all "blind spots".
+
 
 ---
 
