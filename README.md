@@ -49,6 +49,7 @@ BLOCK_ENTRY_5="0.0.0.0 ifconfig.me"
 BLOCK_ENTRY_6="0.0.0.0 icanhazip.com"
 BLOCK_ENTRY_7="0.0.0.0 ipinfo.io"
 BLOCK_ENTRY_8="0.0.0.0 api.ipify.org"
+BLOCK_ENTRY_9="0.0.0.0 ip.42.pl"
 
 # Function to check and add the entry
 block_entry() {
@@ -70,3 +71,4 @@ block_entry "$BLOCK_ENTRY_5"
 block_entry "$BLOCK_ENTRY_6"
 block_entry "$BLOCK_ENTRY_7"
 block_entry "$BLOCK_ENTRY_8"
+block_entry "$BLOCK_ENTRY_9"
