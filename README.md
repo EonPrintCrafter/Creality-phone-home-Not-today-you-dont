@@ -2,7 +2,6 @@
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Platform: K1 Series Printers](https://img.shields.io/badge/platform-K1_Series--BusyBox-lightgrey.svg)](https://github.com/EonPrintCrafter/Creality-phone-home-Not-today-you-dont)
-[![Downloads: 999+ soon 🚀](https://img.shields.io/badge/downloads-999%2B_soon-%F0%9F%9A%80-brightgreen.svg)](https://github.com/EonPrintCrafter/Creality-phone-home-Not-today-you-dont/releases)
 ---
 
 ## 🧭 Overview
