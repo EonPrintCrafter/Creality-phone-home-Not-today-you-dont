@@ -1,7 +1,7 @@
 # ☎️ Creality “Phone Home” – Not Today, You Don’t™
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Platform: K1 Series Printers](https://img.shields.io/badge/platform-K1C–BusyBox-lightgrey)]()
+[![Platform: K1 Series Printers](https://img.shields.io/badge/platform-K1 Series–BusyBox-lightgrey)]()
 [![Downloads: 999+ soon 🚀](https://img.shields.io/badge/downloads-∞-brightgreen.svg)]()
 
 
