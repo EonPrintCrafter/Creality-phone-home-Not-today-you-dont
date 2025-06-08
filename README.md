@@ -6,7 +6,7 @@
 
 ## 🧭 Overview
 
-Your Creality K1C printer is stealthily chatting with the internet — sending telemetry, leaking IPs, and phoning home without permission. This script slams the door shut by rerouting those domains to `0.0.0.0` via `/etc/hosts`, and keeps it shut—even after reboot.
+Your Creality K1 Series printer is stealthily chatting with China — sending telemetry, leaking IPs, and phoning home without permission. This script slams the door shut by rerouting those domains to `0.0.0.0` via `/etc/hosts`, and keeps it shut—even after reboot.
 
 No smoke, no mirrors: it’s a **one-minute install** to regain control of your printer’s privacy 😎.
 
