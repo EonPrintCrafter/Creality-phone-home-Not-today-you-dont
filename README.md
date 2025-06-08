@@ -1,178 +1,136 @@
-# 🛡️ Creality "Phone Home" Blocker – Not Today, You Don’t
+# ☎️ Creality “Phone Home” – Not Today, You Don’t™
 
-## 📋 Overview
-
-This script is designed to **block outbound communication to known telemetry and IP-tracking domains** used by Creality K1C printers. These domains — such as `api.crealitycloud.com`, `ident.me`, `ipecho.net`, and others — are often used for:
-
-- ✉️ **Sending usage telemetry** back to Creality's cloud infrastructure (often located in China)  
-- 🌍 **Exposing your public IP and geolocation** via third-party services  
-- 📡 **Maintaining silent, persistent connections** to external servers without user consent  
-
-Such behavior can compromise **user privacy**, **device autonomy**, and even **network security**.
-
-By editing the system-level `/etc/hosts` file, this script ensures these domains are **completely blocked** at the operating system level — and crucially, the block list persists **even after a reboot**.
-
-> ⚠️ **Why this matters:** These callback domains allow unsolicited data exfiltration and real-time remote monitoring, often without any user control or visibility. Blocking them is a **necessary step toward device hardening, privacy, and network hygiene**.
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Platform: K1C](https://img.shields.io/badge/platform-K1C–BusyBox-lightgrey)]()
+[![Downloads: 999+ soon 🚀](https://img.shields.io/badge/downloads-∞-brightgreen.svg)]()
 
 ---
 
-## ✅ Features
-
-- 📛 **Blocks Invasive Domains** – Includes Creality telemetry, IP-checkers, and known tracking endpoints  
-- 🔁 **Automatic & Persistent** – Re-applies block rules at every system startup  
-- 📂 **Minimal Setup** – Fully automated; no manual updates required  
-- 🧠 **Idempotent Logic** – Prevents duplicate entries in `/etc/hosts`  
-- 🖥️ **System-Compatible** – Works on Linux-based environments (e.g. K1C BusyBox-based firmware)  
-- 🛠️ **Robust Init Script** – Lightweight and reliable, with no runtime dependencies  
-
----
----
-
-## ❓ Why Use This?
-
-Creality printers often make silent outbound requests to remote servers, which can result in:
-
-- 🔓 **Privacy Violations** – Device telemetry may include usage stats, timestamps, and network identifiers  
-- 🌐 **Geolocation Exposure** – Domains like `ident.me`, `ipecho.net`, `ipinfo.io`, etc. can leak your public IP and region  
-- 🕵️ **Remote Monitoring** – Domains like `api.crealitycloud.com` allow Creality to ping or push configs remotely  
-- 🐢 **Performance Overhead** – Background connectivity can interfere with real-time printing processes or updates  
-- 🧠 **Lack of Transparency** – These communications are often undocumented and occur silently  
-
-This script ensures your printer remains **air-gapped from known telemetry sources**, giving you full control of outbound traffic and **ensuring your printer works for you — not for someone else**.
+[![MIT License](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Built for K1C](https://img.shields.io/badge/platform-K1C-green)]() [![Shields](https://img.shields.io/badge/feature-shields-lightgrey)]()
 
 ---
 
-## 🔐 Security & Best Practices
+## 🧭 Overview
 
-- ✅ Modifies `/etc/hosts` directly (root required)  
-- ✅ Clean, POSIX-compliant logic (no external deps)  
-- ✅ Prevents duplicates (idempotent)  
-- ✅ Easy to audit, extend, or rollback  
+Your Creality K1C printer is stealthily chatting with the internet — sending telemetry, leaking IPs, and phoning home without permission. This script slams the door shut by rerouting those domains to `0.0.0.0` via `/etc/hosts`, and keeps it shut—even after reboot.
+
+No smoke, no mirrors: it’s a **one-minute install** to regain control of your printer’s privacy 😎.
 
 ---
 
-## 🚀 Instant Deployment (One-Liner)
+## 🚀 Features & Perks
 
-Run this as root via SSH on your printer:
+- 🛡️ **Blocks telemetry & tracking endpoints**  
+- 🌀 **Auto-persistence at boot** with `init.d`  
+- 🔍 **Smart logic** — no duplicate host entries  
+- ⚙️ **Zero maintenance** — install once, forget it  
+- 🧰 **No external dependencies** — pure POSIX shell  
+- 💾 **Tiny footprint** — ideal for busybox/embedded systems  
+
+---
+
+## 🤔 Why Should You Care?
+
+Because every ping and telemetry payload:
+
+- 🔓 Leaks print data, time, location…  
+- 🌐 Exposes your printer’s IP and geolocation  
+- 📡 Enables covert remote monitoring  
+- 🐢 May slow down other processes  
+- 🤷‍♂️ Happens silently, with no consent  
+
+Take back control — your printer prints for you, not for “them.”
+
+---
+
+## ⚔️ One-Liner Install (As Root)
 
 ```sh
-sh -c 'cat <<EOF > /etc/init.d/S99block-creality
+sh -c 'cat <<EOF >/etc/init.d/S99block-creality
 #!/bin/sh
 HOSTS_FILE="/etc/hosts"
-block_entry() {
-  entry="$1"
-  grep -qF "$entry" "$HOSTS_FILE" || { echo "$entry" >> "$HOSTS_FILE"; echo "[INFO] Added block entry: $entry"; return; }
-  echo "[INFO] Block entry already exists: $entry"
+block_entry(){
+  e="\$1"
+  grep -qF "\$e" "\$HOSTS_FILE" || { echo "\$e" >> "\$HOSTS_FILE"; echo "[INFO] Added block entry: \$e"; return; }
+  echo "[INFO] Already blocked: \$e"
 }
-block_entry "0.0.0.0 api.crealitycloud.com"
-block_entry "0.0.0.0 c-smart.cxswyjy.com"
-block_entry "0.0.0.0 ident.me"
-block_entry "0.0.0.0 ipecho.net"
-block_entry "0.0.0.0 ifconfig.me"
-block_entry "0.0.0.0 icanhazip.com"
-block_entry "0.0.0.0 ipinfo.io"
-block_entry "0.0.0.0 api.ipify.org"
-block_entry "0.0.0.0 ip.42.pl"
+for d in \
+"0.0.0.0 api.crealitycloud.com" \
+"0.0.0.0 c-smart.cxswyjy.com" \
+"0.0.0.0 ident.me" \
+"0.0.0.0 ipecho.net" \
+"0.0.0.0 ifconfig.me" \
+"0.0.0.0 icanhazip.com" \
+"0.0.0.0 ipinfo.io" \
+"0.0.0.0 api.ipify.org" \
+"0.0.0.0 ip.42.pl"; do block_entry "$d"; done
 EOF
 chmod +x /etc/init.d/S99block-creality && update-rc.d S99block-creality defaults'
 ```
 
 ---
 
-## 🧪 Test the Block
-
-After rebooting the printer:
+## ✅ Test It After Reboot
 
 ```sh
 ping api.crealitycloud.com
+# Expected: ping: unknown host api.crealitycloud.com
 ```
 
-Expected output:
-
-```sh
-ping: unknown host api.crealitycloud.com
-```
+That’s a **success** — no surprise phone call ever made 🙂
 
 ---
 
-## 🧰 Manual Install (Alternative to One-Liner)
+## 🧰 Manual Install (If You Want More Control)
 
-### Step 1️⃣: SSH into the Printer
+1. SSH in: `ssh root@<printer-ip>`
+2. `vi /etc/init.d/S99block-creality`
+3. Paste the same block logic as above
+4. `chmod +x /etc/init.d/S99block-creality`
+5. `update-rc.d S99block-creality defaults`
 
-```bash
-ssh root@<printer-ip>
-```
-
-### Step 2️⃣: Create Init Script
-
-```bash
-vi /etc/init.d/S99block-creality
-```
-
-Paste the script:
-
-```sh
-#!/bin/sh
-HOSTS_FILE="/etc/hosts"
-block_entry() {
-  entry="$1"
-  grep -qF "$entry" "$HOSTS_FILE" || { echo "$entry" >> "$HOSTS_FILE"; echo "[INFO] Added block entry: $entry"; return; }
-  echo "[INFO] Block entry already exists: $entry"
-}
-block_entry "0.0.0.0 api.crealitycloud.com"
-block_entry "0.0.0.0 c-smart.cxswyjy.com"
-block_entry "0.0.0.0 ident.me"
-block_entry "0.0.0.0 ipecho.net"
-block_entry "0.0.0.0 ifconfig.me"
-block_entry "0.0.0.0 icanhazip.com"
-block_entry "0.0.0.0 ipinfo.io"
-block_entry "0.0.0.0 api.ipify.org"
-block_entry "0.0.0.0 ip.42.pl"
-```
-
-### Step 3️⃣: Make It Executable
-
-```bash
-chmod +x /etc/init.d/S99block-creality
-```
-
-### Step 4️⃣: Enable on Boot
-
-```bash
-update-rc.d S99block-creality defaults
-
-
-
+All done! 🎉
 
 ---
 
-## 🧼 Uninstall
+## 🧹 Uninstall (If You Dare to Go Back)
 
-```bash
+```sh
 update-rc.d -f S99block-creality remove
 rm /etc/init.d/S99block-creality
-# Optionally: manually clean /etc/hosts
+# Then manually purge lines from /etc/hosts
 ```
 
 ---
 
-## ✍️ Contributions Welcome
+## 📝 Contributions Welcome
 
-Feel free to:
+Want in?
 
-- 📡 Suggest new telemetry domains  
-- 📜 Improve modularity or add logging  
-- 🧪 Extend to other firmware types or devices  
+- 🚀 Add new domains to block  
+- 🧩 Port to other printers/firmware  
+- 🐞 Enhance logging, add features  
+
+PRs, issues, or constructive rants welcome!
 
 ---
 
 ## 📜 License
 
-**MIT License** — Use, modify, and redistribute freely with proper attribution.
+MIT — **Copy, remix, obliterate** (just keep the license). Attribution appreciated.
 
 ---
 
-## 💬 Questions?
+## 💬 Talk to Us
 
-Open an issue or start a discussion:  
-👉 https://github.com/EonPrintCrafter/Creality-phone-home-Not-today-you-dont/issues
+Shoot your questions, suggestions—or jokes—here:  
+👉 [GitHub Discussions & Issues](https://github.com/EonPrintCrafter/Creality-phone-home-Not-today-you-dont/issues)
+
+---
+
+> *“I prefer my printer silent. The only sound I want is the sizzling hot nozzle, not telemetry bursts.”*
+
+---
+
+Rock on, printer warriors. May your prints be flawless—and your network silent. 🔇
+
